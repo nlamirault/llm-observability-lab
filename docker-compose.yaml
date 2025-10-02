@@ -1,0 +1,42 @@
+# SPDX-FileCopyrightText: Copyright (C) Nicolas Lamirault <nicolas.lamirault@gmail.com>
+# SPDX-License-Identifier: Apache-2.0
+
+---
+networks:
+  ai-llm-lab:
+    driver: bridge
+    name: ai-llm-lab
+
+x-common: &common
+  networks:
+  - ai-llm-lab
+  restart: unless-stopped
+  logging:
+    options:
+      max-size: 50m
+      max-file: "3"
+
+services:
+  otel-collector:
+    <<: *common
+    image: otel/opentelemetry-collector-contrib:0.135.0
+    container_name: otel
+    command:
+    - "--config=/conf/config.yaml"
+    volumes:
+    - ./etc/otel-collector.yaml:/conf/config.yaml
+    ports:
+    - "4317:4317" # OTLP gRPC receiver
+    - "4318:4318" # OTLP http receiver
+    - "8889:8889" # Prometheus metrics exporter
+    environment:
+      AGENTA_API_KEY: ${AGENTA_API_KEY}
+      LANGFUSE_AUTH: ${LANGFUSE_AUTH}
+      LANGSMITH_API_KEY: ${LANGSMITH_API_KEY}
+      LANGSMITH_PROJECT: ${LANGSMITH_PROJECT}
+      TRACELOOP_API_KEY: ${TRACELOOP_API_KEY}
+      # TRACELOOP_DEST_ID: ${TRACELOOP_DEST_ID}
+      BRAINTRUST_API_KEY: ${BRAINTRUST_API_KEY}
+      BRAINTRUST_PROJECT_NAME: ${BRAINTRUST_PROJECT_NAME}
+      LAMINAR_API_KEY: ${LAMINAR_API_KEY}
+      # LAMINAR_TEAM: ${LAMINAR_TEAM}
