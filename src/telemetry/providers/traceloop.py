@@ -7,7 +7,7 @@ from os import environ
 from typing import Dict, Optional
 
 from .base import OTelProvider
-from exceptions import OpenTelemetryProviderException
+from exceptions import OpenTelemetryProviderError
 
 
 TRACELOOP_CLOUD_ENDPOINT = "https://api.traceloop.com"
@@ -33,7 +33,7 @@ class TraceloopProvider(OTelProvider):
         )
 
         if not self.api_key:
-            raise OpenTelemetryProviderException(
+            raise OpenTelemetryProviderError(
                 "traceloop",
                 "Traceloop API key is required. Set TRACELOOP_API_KEY environment variable.",
             )

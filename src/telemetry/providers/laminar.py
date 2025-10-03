@@ -7,7 +7,7 @@ from os import environ
 from typing import Dict, Optional
 
 from .base import OTelProvider
-from exceptions import OpenTelemetryProviderException
+from exceptions import OpenTelemetryProviderError
 
 
 LAMINAR_CLOUD_ENDPOINT = "https://api.lmnr.ai:8443"
@@ -33,7 +33,7 @@ class LaminarProvider(OTelProvider):
         self.project_id = team_id or environ.get("LAMINAR_TEAM_ID")
 
         if not self.api_key:
-            raise OpenTelemetryProviderException(
+            raise OpenTelemetryProviderError(
                 "laminar",
                 "Laminar API key is required. Set LAMINAR_API_KEY environment variable.",
             )

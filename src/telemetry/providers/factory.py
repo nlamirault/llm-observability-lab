@@ -14,7 +14,7 @@ from .langfuse import LangfuseProvider
 from .langsmith import LangsmithProvider
 from .otelcollector import OTelCollectorProvider
 from .traceloop import TraceloopProvider
-from exceptions import OpenTelemetryProviderException
+from exceptions import OpenTelemetryProviderError
 
 
 class OTelProviderType(Enum):
@@ -40,11 +40,11 @@ def create_otel_provider(provider_name: str, **kwargs: Any) -> OTelProvider:
         Configured OTel provider instance
 
     Raises:
-        OpenTelemetryProviderException: If provider is not supported
+        OpenTelemetryProviderError: If provider is not supported
     """
 
     if not provider_name:
-        raise OpenTelemetryProviderException(provider_name, "Unsupported provider")
+        raise OpenTelemetryProviderError(provider_name, "Unsupported provider")
     elif provider_name == OTelProviderType.LANGSMITH.value:
         return LangsmithProvider(**kwargs)
     elif provider_name == OTelProviderType.AGENTA.value:
@@ -60,7 +60,7 @@ def create_otel_provider(provider_name: str, **kwargs: Any) -> OTelProvider:
     elif provider_name == OTelProviderType.OTELCOLLECTOR.value:
         return OTelCollectorProvider(**kwargs)
     else:
-        raise OpenTelemetryProviderException(provider_name, "Unsupported provider")
+        raise OpenTelemetryProviderError(provider_name, "Unsupported provider")
 
 
 def get_available_providers() -> list[str]:

@@ -7,7 +7,7 @@ from os import environ
 from typing import Dict, Optional
 
 from .base import OTelProvider
-from exceptions import OpenTelemetryProviderException
+from exceptions import OpenTelemetryProviderError
 
 
 LANGSMITH_ENDPOINT = "https://api.smith.langchain.com/otel"
@@ -29,7 +29,7 @@ class LangsmithProvider(OTelProvider):
         self.api_key = api_key or environ.get("LANGSMITH_API_KEY")
 
         if not self.api_key:
-            raise OpenTelemetryProviderException(
+            raise OpenTelemetryProviderError(
                 "langsmith",
                 "Langsmith API key is required. Set LANGSMITH_API_KEY environment variable.",
             )

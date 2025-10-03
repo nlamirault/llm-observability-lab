@@ -7,7 +7,7 @@ from os import environ
 from typing import Dict, Optional
 
 from .base import OTelProvider
-from exceptions import OpenTelemetryProviderException
+from exceptions import OpenTelemetryProviderError
 
 
 AGENTA_AI_ENDPOINT = "https://cloud.agenta.ai/api/otlp"
@@ -28,7 +28,7 @@ class AgentaProvider(OTelProvider):
         self.api_key = api_key or environ.get("AGENTA_API_KEY")
 
         if not self.api_key:
-            raise OpenTelemetryProviderException(
+            raise OpenTelemetryProviderError(
                 "agenta",
                 "Agenta API key is required. Set AGENTA_API_KEY environment variable.",
             )

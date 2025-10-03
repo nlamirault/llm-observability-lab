@@ -63,7 +63,7 @@ def setup_tracing_with_provider(
             insecure=False,  # Use secure connection by default
         )
     else:
-        raise exceptions.OpenTelemetryProtocolException(
+        raise exceptions.OpenTelemetryProtocolError(
             f"invalid OpenTelemetry protocol: {protocol}"
         )
 

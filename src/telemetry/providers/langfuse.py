@@ -8,7 +8,7 @@ from os import environ
 from typing import Dict, Optional
 
 from .base import OTelProvider
-from exceptions import OpenTelemetryProviderException
+from exceptions import OpenTelemetryProviderError
 
 
 LANGFUSE_CLOUD_ENDPOINT = "https://cloud.langfuse.com/api/public/otel"
@@ -32,12 +32,12 @@ class LangfuseProvider(OTelProvider):
         self.public_key = public_key or environ.get("LANGFUSE_PUBLIC_KEY")
 
         if not self.public_key:
-            raise OpenTelemetryProviderException(
+            raise OpenTelemetryProviderError(
                 "langfuse",
                 "Langfuse API key is required. Set LANGFUSE_PUBLIC_KEY environment variable.",
             )
         if not self.secret_key:
-            raise OpenTelemetryProviderException(
+            raise OpenTelemetryProviderError(
                 "langfuse",
                 "Langfuse secret key is required. Set LANGFUSE_SECRET_KEY environment variable.",
             )
