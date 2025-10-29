@@ -22,3 +22,18 @@ dependencies = [
   "opentelemetry-semantic-conventions>=0.58b0",
   # "paid-python>=0.0.5",
 ]
+
+[tool.ruff]
+respect-gitignore = true
+line-length = 120
+indent-width = 4
+output-format = "full"
+target-version = "py38"
+
+[tool.ruff.format]
+indent-style = "space"
+line-ending = "lf"
+quote-style = "double"
+
+[tool.ruff.lint]
+extend-select = ["I"]
