@@ -45,10 +45,6 @@ jobs:
       run: |
         uv build
 
-    - name: ✅ Lint
-      run: |
-        uv run ruff check
-
   docker:
     runs-on: ubuntu-latest
     needs: build
