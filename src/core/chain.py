@@ -2,9 +2,9 @@
 # SPDX-License-Identifier: Apache-2.0
 
 # import agenta as ag
-from langchain_core.messages import SystemMessage, HumanMessage
-from langchain.prompts import ChatPromptTemplate, HumanMessagePromptTemplate
 from langchain.chains import LLMChain, SequentialChain, TransformChain
+from langchain.prompts import ChatPromptTemplate, HumanMessagePromptTemplate
+from langchain_core.messages import HumanMessage, SystemMessage
 
 
 def langchain_app(llm):
@@ -12,9 +12,7 @@ def langchain_app(llm):
     transform = TransformChain(
         input_variables=["subject"],
         output_variables=["prompt"],
-        transform=lambda inputs: {
-            "prompt": f"Tell me a joke about {inputs['subject']}."
-        },
+        transform=lambda inputs: {"prompt": f"Tell me a joke about {inputs['subject']}."},
     )
 
     # Define the first LLM chain to generate a joke
@@ -28,9 +26,7 @@ def langchain_app(llm):
     # Define the second LLM chain to translate the joke
     second_prompt_messages = [
         SystemMessage(content="You are an Elf."),
-        HumanMessagePromptTemplate.from_template(
-            "Translate the joke below into Sindarin language:\n{joke}"
-        ),
+        HumanMessagePromptTemplate.from_template("Translate the joke below into Sindarin language:\n{joke}"),
     ]
     second_prompt_template = ChatPromptTemplate.from_messages(second_prompt_messages)
     second_chain = LLMChain(llm=llm, prompt=second_prompt_template)

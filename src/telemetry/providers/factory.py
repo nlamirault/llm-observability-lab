@@ -6,6 +6,8 @@
 from enum import Enum
 from typing import Any
 
+from exceptions import OpenTelemetryProviderError
+
 from .agenta import AgentaProvider
 from .base import OTelProvider
 from .braintrust import BrainTrustProvider
@@ -14,7 +16,6 @@ from .langfuse import LangfuseProvider
 from .langsmith import LangsmithProvider
 from .otelcollector import OTelCollectorProvider
 from .traceloop import TraceloopProvider
-from exceptions import OpenTelemetryProviderError
 
 
 class OTelProviderType(Enum):

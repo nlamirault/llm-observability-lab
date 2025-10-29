@@ -7,9 +7,9 @@ import base64
 from os import environ
 from typing import Dict, Optional
 
-from .base import OTelProvider
 from exceptions import OpenTelemetryProviderError
 
+from .base import OTelProvider
 
 LANGFUSE_CLOUD_ENDPOINT = "https://cloud.langfuse.com/api/public/otel"
 
@@ -50,9 +50,7 @@ class LangfuseProvider(OTelProvider):
 
     def get_headers(self) -> Dict[str, str]:
         """Get Langfuse authentication headers."""
-        auth = base64.b64encode(
-            f"{self.public_key}:{self.secret_key}".encode()
-        ).decode()
+        auth = base64.b64encode(f"{self.public_key}:{self.secret_key}".encode()).decode()
         headers = {
             "Authorization": f"Basic {auth}",
         }

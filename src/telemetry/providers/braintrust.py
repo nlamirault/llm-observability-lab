@@ -6,9 +6,9 @@
 from os import environ
 from typing import Dict, Optional
 
-from .base import OTelProvider
 from exceptions import OpenTelemetryProviderError
 
+from .base import OTelProvider
 
 BRAINTRUST_CLOUD_ENDPOINT = "https://api.braintrust.dev/otel"
 

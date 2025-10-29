@@ -6,9 +6,9 @@
 from os import environ
 from typing import Dict, Optional
 
-from .base import OTelProvider
 from exceptions import OpenTelemetryProviderError
 
+from .base import OTelProvider
 
 LANGSMITH_ENDPOINT = "https://api.smith.langchain.com/otel"
 
@@ -16,9 +16,7 @@ LANGSMITH_ENDPOINT = "https://api.smith.langchain.com/otel"
 class LangsmithProvider(OTelProvider):
     """Langsmith OpenTelemetry provider implementation."""
 
-    def __init__(
-        self, project_name: Optional[str] = None, api_key: Optional[str] = None
-    ):
+    def __init__(self, project_name: Optional[str] = None, api_key: Optional[str] = None):
         """Initialize Langsmith provider.
 
         Args:
