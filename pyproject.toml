@@ -6,7 +6,8 @@ name = "ai-llm-lab"
 version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
-requires-python = ">=3.13"
+requires-python = ">=3.12"
+license = "Apache-2.0"
 dependencies = [
   "langchain>=0.3.27",
   "langchain-anthropic>=0.3.21",
@@ -22,3 +23,18 @@ dependencies = [
   "opentelemetry-semantic-conventions>=0.58b0",
   # "paid-python>=0.0.5",
 ]
+
+[tool.ruff]
+respect-gitignore = true
+line-length = 120
+indent-width = 4
+output-format = "full"
+target-version = "py38"
+
+[tool.ruff.format]
+indent-style = "space"
+line-ending = "lf"
+quote-style = "double"
+
+[tool.ruff.lint]
+extend-select = ["I"]

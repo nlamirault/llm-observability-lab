@@ -5,8 +5,8 @@
 
 from models.factory import create_llm
 from models.llm import create_test_messages
-from telemetry.tracing import cleanup_tracing, setup_tracing_with_provider
 from telemetry.resource import create_resource
+from telemetry.tracing import cleanup_tracing, setup_tracing_with_provider
 
 
 def run_application(

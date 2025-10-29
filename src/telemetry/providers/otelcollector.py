@@ -8,7 +8,6 @@ from typing import Dict, Optional
 
 from .base import OTelProvider
 
-
 OTEL_COLLECTOR_GRPC_ENDPOINT = "http://localhost:4317"
 OTEL_COLLECTOR_HTTP_ENDPOINT = "http://localhost:4318"
 
@@ -32,9 +31,7 @@ class OTelCollectorProvider(OTelProvider):
             endpoint = OTEL_COLLECTOR_GRPC_ENDPOINT
         self.endpoint = endpoint
         self.headers = {}
-        print(
-            f"OpenTelemetry Collector provider setup done - {self.protocol}://{self.endpoint}"
-        )
+        print(f"OpenTelemetry Collector provider setup done - {self.protocol}://{self.endpoint}")
 
     def get_endpoint(self) -> str:
         """Get the OpenTelemetry Collector endpoint."""

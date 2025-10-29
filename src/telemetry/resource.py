@@ -4,13 +4,13 @@
 """OpenTelemetry resource configuration with multiple detectors."""
 
 from opentelemetry.sdk import resources
+
 # from opentelemetry.sdk.resources import (
 #     ProcessResourceDetector,
 #     OSResourceDetector,
 #     HostResourceDetector,
 #     ContainerResourceDetector,
 # )
-
 import version
 
 

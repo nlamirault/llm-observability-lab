@@ -8,14 +8,14 @@ import logging
 from opentelemetry import trace
 from opentelemetry.exporter.otlp.proto.grpc import trace_exporter as trace_exporter_grpc
 from opentelemetry.exporter.otlp.proto.http import trace_exporter as trace_exporter_http
-
 from opentelemetry.instrumentation.langchain import LangchainInstrumentor
 from opentelemetry.sdk import resources
 from opentelemetry.sdk import trace as sdk_trace
 from opentelemetry.sdk.trace import export as trace_export
 
-from .providers.factory import create_otel_provider
 import exceptions
+
+from .providers.factory import create_otel_provider
 
 logger = logging.getLogger(__name__)
 
@@ -43,9 +43,7 @@ def setup_tracing_with_provider(
     endpoint = provider.get_endpoint()
     headers = provider.get_headers()
 
-    logger.info(
-        f"Setup OpenTelemetry Tracer with {provider.name}: {endpoint} ({protocol})"
-    )
+    logger.info(f"Setup OpenTelemetry Tracer with {provider.name}: {endpoint} ({protocol})")
 
     # Create span exporter based on protocol
     if protocol == "http":
@@ -63,9 +61,7 @@ def setup_tracing_with_provider(
             insecure=False,  # Use secure connection by default
         )
     else:
-        raise exceptions.OpenTelemetryProtocolError(
-            f"invalid OpenTelemetry protocol: {protocol}"
-        )
+        raise exceptions.OpenTelemetryProtocolError(f"invalid OpenTelemetry protocol: {protocol}")
 
     logger.info(f"OTLP tracing configured for {provider.name}: {endpoint}")
 
@@ -80,11 +76,7 @@ def setup_tracing_with_provider(
     trace.set_tracer_provider(tracer_provider)
     logger.info("OpenTelemetry tracing initialized")
 
-    return trace.get_tracer(
-        resource.attributes.get(resources.SERVICE_NAME, "unknown")
-        if resource
-        else "unknown"
-    )
+    return trace.get_tracer(resource.attributes.get(resources.SERVICE_NAME, "unknown") if resource else "unknown")
 
 
 # Backward compatibility function
@@ -94,18 +86,14 @@ def setup_tracing(
     resource: resources.Resource,
 ) -> trace.Tracer:
     """Legacy function for backward compatibility."""
-    logger.warning(
-        "setup_tracing is deprecated. Use setup_tracing_with_provider instead."
-    )
+    logger.warning("setup_tracing is deprecated. Use setup_tracing_with_provider instead.")
 
     # Try to determine provider from endpoint
     if "langchain.com" in otlp_endpoint or "smith.langchain" in otlp_endpoint:
         provider = create_otel_provider("langsmith")
     else:
         # Fallback to a basic configuration
-        raise ValueError(
-            "Cannot determine provider from endpoint. Use setup_tracing_with_provider instead."
-        )
+        raise ValueError("Cannot determine provider from endpoint. Use setup_tracing_with_provider instead.")
 
     return setup_tracing_with_provider(provider, otlp_protocol, resource)
 

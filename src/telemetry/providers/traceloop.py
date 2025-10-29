@@ -6,9 +6,9 @@
 from os import environ
 from typing import Dict, Optional
 
-from .base import OTelProvider
 from exceptions import OpenTelemetryProviderError
 
+from .base import OTelProvider
 
 TRACELOOP_CLOUD_ENDPOINT = "https://api.traceloop.com"
 
@@ -28,9 +28,7 @@ class TraceloopProvider(OTelProvider):
             destination_id: Traceloop destination (defaults to env TRACELOOP_DESTINATION or "production")
         """
         self.api_key = api_key or environ.get("TRACELOOP_API_KEY")
-        self.environment = destination_id or environ.get(
-            "TRACELOOP_DESTINATION", "production"
-        )
+        self.environment = destination_id or environ.get("TRACELOOP_DESTINATION", "production")
 
         if not self.api_key:
             raise OpenTelemetryProviderError(
