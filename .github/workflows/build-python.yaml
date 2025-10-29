@@ -7,7 +7,8 @@ name: Build / Python
 on:
   pull_request:
     paths:
-    - src/**
+    - src/**/*.py
+    - pyproject.toml
   workflow_dispatch: # Allow manual triggering
 
 permissions:
@@ -42,12 +43,10 @@ jobs:
 
     - name: ✅ Build application
       run: |
-        cd apps/otel-python
         uv build
 
     - name: ✅ Lint
       run: |
-        cd apps/otel-python
         uv run ruff check
 
   docker:
@@ -82,8 +81,8 @@ jobs:
     - name: 🐳 Build and push Docker image
       uses: docker/build-push-action@263435318d21b8e681c14492fe198d362a7d2c83 # v6.18.0
       with:
-        context: ./apps/otel-python
-        file: ./apps/otel-python/Dockerfile
+        context: ./
+        file: ./Dockerfile
         platforms: linux/amd64,linux/arm64
         push: false
         # provenance: mode=max
