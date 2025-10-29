@@ -15,7 +15,7 @@ RUN --mount=type=cache,target=/root/.cache/uv \
   --mount=type=bind,source=uv.lock,target=uv.lock \
   --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
   uv sync --frozen --no-install-project --no-dev
-RUN uv run opentelemetry-bootstrap -a install
+# RUN uv run opentelemetry-bootstrap -a install
 
 # Then, add the rest of the project source code and install it
 ADD . /app
@@ -27,4 +27,4 @@ ENV PATH="/app/.venv/bin:$PATH"
 # Reset the entrypoint, don't invoke `uv`
 ENTRYPOINT []
 
-CMD ["opentelemetry-instrument", "uv", "run", "src/app.py"]
+CMD ["uv", "run", "src/app.py"]
