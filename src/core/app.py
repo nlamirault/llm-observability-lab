@@ -4,8 +4,8 @@
 """Main application logic."""
 
 from models.factory import create_llm
-from models.llm import create_test_messages
 from telemetry.tracing import cleanup_tracing, setup_tracing_with_provider
+from models.llm import create_test_messages
 from telemetry.resource import create_resource
 
 
