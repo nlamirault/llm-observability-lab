@@ -108,7 +108,8 @@ jobs:
 
   docker:
     runs-on: ubuntu-latest
-    needs: build
+    needs:
+    - artifact
     name: Docker
     steps:
     - name: 🔧 Set TAG_NAME variable
