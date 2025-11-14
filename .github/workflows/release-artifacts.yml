@@ -31,6 +31,7 @@ jobs:
       hash: ${{ steps.hash.outputs.hash }}
       artifact-name: ${{ steps.hash.outputs.artifact-name }}
       tag-name: ${{ steps.hash.outputs.tag-name }}
+      digest: ${{ steps.build-push.outputs.digest }}
 
     steps:
     - name: 🔧 Set TAG_NAME variable
@@ -151,7 +152,7 @@ jobs:
         file: ./Dockerfile
         platforms: linux/amd64,linux/arm64
         sbom: true
-        provenance: true
+        provenance: mode=max
         push: true
         tags: ${{ steps.meta.outputs.tags }}
         labels: ${{ steps.meta.outputs.labels }}
@@ -206,7 +207,7 @@ jobs:
     uses: slsa-framework/slsa-github-generator/.github/workflows/generator_container_slsa3.yml@v2.1.0
     with:
       digest: "${{ needs.docker.outputs.digest }}"
-      image: "${{ needs.docker.outputs.image }}"
+      image: "llm-observability-lab"
       registry-username: ${{ github.actor }}
     secrets:
       registry-password: ${{ secrets.GITHUB_TOKEN }}
