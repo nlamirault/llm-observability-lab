@@ -2,9 +2,9 @@
 # SPDX-License-Identifier: Apache-2.0
 
 [project]
-name = "ai-llm-lab"
+name = "llm-observability-lab"
 version = "0.1.0"
-description = "Add your description here"
+description = "LLM observability laboratory"
 readme = "README.md"
 requires-python = ">=3.12"
 license = "Apache-2.0"
