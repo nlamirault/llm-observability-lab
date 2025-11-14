@@ -125,7 +125,7 @@ jobs:
     - name: 🐳 Set up Docker Buildx
       uses: docker/setup-buildx-action@e468171a9de216ec08956ac3ada2f0791b6bd435 # v3.11.1
 
-    - name: 🐳 Log in to Container Registry
+    - name: 🐳 Log in to GitHub Container Registry
       uses: docker/login-action@5e57cd118135c172c3672efd75eb46360885c0ef # v3.6.0
       with:
         registry: ghcr.io
@@ -144,36 +144,33 @@ jobs:
           type=sha
 
     - name: 🐳 Build and push Docker image
+      id: build-push
       uses: docker/build-push-action@263435318d21b8e681c14492fe198d362a7d2c83 # v6.18.0
       with:
         context: ./
         file: ./Dockerfile
         platforms: linux/amd64,linux/arm64
-        push: true
-        # provenance: mode=max
         sbom: true
+        provenance: true
+        push: true
         tags: ${{ steps.meta.outputs.tags }}
         labels: ${{ steps.meta.outputs.labels }}
         cache-from: type=gha
         cache-to: type=gha,mode=max
 
-    - name: Output image
-      id: image
-      run: |
-        # NOTE: Set the image as an output because the `env` context is not
-        # available to the inputs of a reusable workflow call.
-        image_name="${IMAGE_REGISTRY}/${IMAGE_NAME}"
-        echo "image=$image_name" >> "$GITHUB_OUTPUT"
+    - name: 🎉 Install cosign
+      uses: sigstore/cosign-installer@faadad0cce49287aee09b3a48701e75088a2c6ad # v4.0.0
 
-    - name: Setup Crane
-      uses: imjasonh/setup-crane@31b88efe9de28ae0ffa220711af4b60be9435f6e # v0.4
-
-    - name: Get pushed module digest
-      id: get-digest
+    - name: 🔓 Sign images
+      shell: bash
+      env:
+        COSIGN_YES: "true"
+        DIGEST: ${{ steps.build-push.outputs.digest }}
       run: |
-        digest=$(crane digest ${{ env.REGISTRY }}/${{ github.repository_owner }}/$TAG_NAME)
-        echo digest=$digest >> "$GITHUB_OUTPUT"
-        echo $digest
+        cosign sign \
+          --recursive \
+          --oidc-provider=github-actions \
+          ghcr.io/${{ github.repository }}@${DIGEST}
 
   artifact-provenance:
     needs:
