@@ -215,8 +215,8 @@ jobs:
 
   verification:
     needs:
-    - release
     - artifact-provenance
+    - image-provenance
 
     # strategy:
     #   fail-fast: false # Don't cancel other jobs if one fails
