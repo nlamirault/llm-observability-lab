@@ -176,19 +176,19 @@ jobs:
         cache-from: type=gha
         cache-to: type=gha,mode=max
 
-    - name: 🎉 Install cosign
-      uses: sigstore/cosign-installer@faadad0cce49287aee09b3a48701e75088a2c6ad # v4.0.0
+    # - name: 🎉 Install cosign
+    #   uses: sigstore/cosign-installer@faadad0cce49287aee09b3a48701e75088a2c6ad # v4.0.0
 
-    - name: 🔓 Sign images
-      shell: bash
-      env:
-        COSIGN_YES: "true"
-        DIGEST: ${{ steps.build-push.outputs.digest }}
-      run: |
-        cosign sign \
-          --recursive \
-          --oidc-provider=github-actions \
-          ghcr.io/${{ github.repository }}@${DIGEST}
+    # - name: 🔓 Sign images
+    #   shell: bash
+    #   env:
+    #     COSIGN_YES: "true"
+    #     DIGEST: ${{ steps.build-push.outputs.digest }}
+    #   run: |
+    #     cosign sign \
+    #       --recursive \
+    #       --oidc-provider=github-actions \
+    #       ghcr.io/${{ github.repository }}@${DIGEST}
 
   artifact-provenance:
     needs:
