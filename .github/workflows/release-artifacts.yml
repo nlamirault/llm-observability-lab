@@ -71,7 +71,9 @@ jobs:
       run: |
         set -euo pipefail
 
-        artifact_name=dist/llm_observability_lab-$TAG_NAME.tar.gz
+        cp dist/llm_observability_lab-$TAG_NAME.tar.gz llm_observability_lab-$TAG_NAME.tar.gz
+
+        artifact_name=llm_observability_lab-$TAG_NAME.tar.gz
         echo "artifact-name=$artifact_name" >> "$GITHUB_OUTPUT"
 
         checksum=$(sha256sum $artifact_name | base64 -w0)
