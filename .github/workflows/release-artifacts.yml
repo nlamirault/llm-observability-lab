@@ -46,6 +46,8 @@ jobs:
           echo "TAG_NAME=$(echo '${{ github.ref_name }}' | sed 's/^v//')" >> $GITHUB_ENV
         fi
 
+        artifact-name=$(echo "llm_observability_lab-$TAG_NAME.tar.gz" | sed -E 's/-v([0-9]+\.[0-9]+\.[0-9]+)/-\1/') >> $GITHUB_ENV
+
     - name: 🚚 Checkout
       uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
       with:
@@ -71,12 +73,9 @@ jobs:
       run: |
         set -euo pipefail
 
-        cp dist/llm_observability_lab-$TAG_NAME.tar.gz llm_observability_lab-$TAG_NAME.tar.gz
+        cp dist/${{ steps.hash.outputs.artifact-name }} ${{ steps.hash.outputs.artifact-name }}
 
-        artifact_name=llm_observability_lab-$TAG_NAME.tar.gz
-        echo "artifact-name=$artifact_name" >> "$GITHUB_OUTPUT"
-
-        checksum=$(sha256sum $artifact_name | base64 -w0)
+        checksum=$(sha256sum ${{ steps.hash.outputs.artifact-name }} | base64 -w0)
         echo "hash=$checksum" >> "$GITHUB_OUTPUT"
 
         echo "tag-name=$TAG_NAME" >> "${GITHUB_OUTPUT}"
