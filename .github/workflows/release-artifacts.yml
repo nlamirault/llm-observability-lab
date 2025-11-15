@@ -41,9 +41,9 @@ jobs:
       run: |
         # Extract tag without the 'v'
         if [ -n "${{ github.event.inputs.tag }}" ]; then
-          echo "TAG_NAME=${{ github.event.inputs.tag#v }}" >> $GITHUB_ENV
+          echo "TAG_NAME=$(echo '${{ github.event.inputs.tag }}' | sed 's/^v//')" >> $GITHUB_ENV
         else
-          echo "TAG_NAME=${{ github.ref_name#v }}" >> $GITHUB_ENV
+          echo "TAG_NAME=$(echo '${{ github.ref_name }}' | sed 's/^v//')" >> $GITHUB_ENV
         fi
 
     - name: 🚚 Checkout
