@@ -15,6 +15,10 @@ on:
 
 permissions: read-all
 
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
 jobs:
   artifact:
     # strategy:
@@ -147,7 +151,7 @@ jobs:
     - name: 🐳 Log in to GitHub Container Registry
       uses: docker/login-action@5e57cd118135c172c3672efd75eb46360885c0ef # v3.6.0
       with:
-        registry: ghcr.io
+        registry: ${{ env.REGISTRY }}
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
 
@@ -155,7 +159,7 @@ jobs:
       id: meta
       uses: docker/metadata-action@318604b99e75e41977312d83839a89be02ca4893 # v5.9.0
       with:
-        images: ghcr.io/${{ github.repository }}
+        images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
         tags: |
           type=semver,pattern={{version}}
           type=semver,pattern={{major}}.{{minor}}
@@ -192,7 +196,7 @@ jobs:
     #     cosign sign \
     #       --recursive \
     #       --oidc-provider=github-actions \
-    #       ghcr.io/${{ github.repository }}@${DIGEST}
+    #       ${{ env.REGISTRY }}/${{ github.repository }}@${DIGEST}
 
   artifact-provenance:
     needs:
@@ -228,7 +232,7 @@ jobs:
     uses: slsa-framework/slsa-github-generator/.github/workflows/generator_container_slsa3.yml@v2.1.0
     with:
       digest: "${{ needs.docker.outputs.digest }}"
-      image: "llm-observability-lab"
+      image: "${{ env.REGISTRY }}/llm-observability-lab"
       registry-username: ${{ github.actor }}
     secrets:
       registry-password: ${{ secrets.GITHUB_TOKEN }}
