@@ -125,6 +125,9 @@ jobs:
       contents: read
       packages: write
 
+    outputs:
+      digest: ${{ steps.build-push.outputs.digest }}
+
     steps:
     - name: 🔧 Set TAG_NAME variable
       id: tag
@@ -173,6 +176,9 @@ jobs:
         labels: ${{ steps.meta.outputs.labels }}
         cache-from: type=gha
         cache-to: type=gha,mode=max
+
+    - name: Image digest
+      run: echo ${{ steps.build-push.outputs.digest }}
 
     # - name: 🎉 Install cosign
     #   uses: sigstore/cosign-installer@faadad0cce49287aee09b3a48701e75088a2c6ad # v4.0.0
