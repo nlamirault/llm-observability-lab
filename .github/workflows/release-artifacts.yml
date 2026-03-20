@@ -89,7 +89,7 @@ jobs:
         subject-path: "${{ steps.hash.outputs.artifact-name }}"
 
     - name: ✅ Generate SBOM
-      uses: anchore/sbom-action@8e94d75ddd33f69f691467e42275782e4bfefe84 # v0.20.9
+      uses: anchore/sbom-action@e22c389904149dbc22b58101806040fa8d37a610 # v0.24.0
       id: sbom
       with:
         path: ${{ github.workspace }}
